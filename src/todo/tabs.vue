@@ -1,6 +1,7 @@
 <template>
     <div class="helper">
         <span class="left">{{unFinishedTodoLength}} items left</span>
+        <!-- 添加key属性，使数据在发生变化时才更新，避免重复生成节点 -->
         <span 
             v-for="state in states" 
             :key="state" 

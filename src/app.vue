@@ -4,7 +4,6 @@
         <Header></Header>
         <todo></todo>
         <Footer></Footer>
-        
     </div>
 </template>
 

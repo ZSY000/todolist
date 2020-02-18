@@ -15,6 +15,7 @@ const config = {
     },
     plugins:[
         new VueLoaderPlugin(),
+        // 生成html文件，不用手动处理bundle.js文件
         new htmlWebpackPlugin(),
         // 配置环境
         new webpack.DefinePlugin({
@@ -30,6 +31,10 @@ const config = {
             {test:/\.vue$/,loader:'vue-loader'},
             {test:/\.js$/,loader:'babel-loader',exclude:'/node_mudules/'},
             {test:/\.css$/,use:['style-loader','css-loader']},
+            // url-loader可以将小于limit：1024的图片转成base64的代码放入js文件中
+            // options是为loader配置参数
+            // [name].[ext]：图片名.扩展名，可以加其他字符
+            // url-loader依赖file-loader
             {test:/\.(gif|jpg|jpeg|png|svg)$/,use:[{loader:'url-loader',options:{limit:1024,name:'[name].[ext]'}}]},
             // 根据环境来加载
             // {test:/\.styl/,use:['style-loader','css-loader',{loader:'postcss-loader',options:{sourceMap:true}},'stylus-loader']},
@@ -51,6 +56,8 @@ if(isDev){
             'stylus-loader'
         ]
     })
+
+    // 映射代码，便于调试
     const devtool = '#cheap-module-eval-source-map'
     config.devServer = {
         port:8000,
@@ -58,9 +65,10 @@ if(isDev){
         overlay:{
             errors:true
         },
-        hot:true    
+        hot:true    // 不用刷新，只重新渲染更改组件
     }
     config.plugins.push(
+        // 热更新
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin()
     )
